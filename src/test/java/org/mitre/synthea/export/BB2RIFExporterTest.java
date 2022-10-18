@@ -45,7 +45,6 @@ import org.mitre.synthea.helpers.SimpleCSV;
 import org.mitre.synthea.helpers.Utilities;
 import org.mitre.synthea.world.agents.Person;
 import org.mitre.synthea.world.concepts.Claim;
-import org.mitre.synthea.world.concepts.HealthRecord;
 
 public class BB2RIFExporterTest {
   /**
@@ -76,7 +75,7 @@ public class BB2RIFExporterTest {
 
   @Test
   public void testBB2Export() throws Exception {
-    int numberOfPeople = 10;
+    int numberOfPeople = 20;
     Exporter.ExporterRuntimeOptions exportOpts = new Exporter.ExporterRuntimeOptions();
     Generator.GeneratorOptions generatorOpts = new Generator.GeneratorOptions();
     generatorOpts.population = numberOfPeople;
@@ -234,13 +233,13 @@ public class BB2RIFExporterTest {
 
   private static class PDETotals {
     private final String pdeID;
-    private BigDecimal lineTotalRxAmount;
-    private BigDecimal linePatientAmount;
-    private BigDecimal lineOtherPocketAmount;
-    private BigDecimal lineSubsidizedAmount;
-    private BigDecimal lineOtherInsuranceAmount;
-    private BigDecimal linePartDCoveredAmount;
-    private BigDecimal linePartDNotCoveredAmount;
+    private final BigDecimal lineTotalRxAmount;
+    private final BigDecimal linePatientAmount;
+    private final BigDecimal lineOtherPocketAmount;
+    private final BigDecimal lineSubsidizedAmount;
+    private final BigDecimal lineOtherInsuranceAmount;
+    private final BigDecimal linePartDCoveredAmount;
+    private final BigDecimal linePartDNotCoveredAmount;
 
     PDETotals(LinkedHashMap<String, String> row) {
       pdeID = row.get("PDE_ID");
@@ -271,7 +270,7 @@ public class BB2RIFExporterTest {
     assertTrue(
             "Expected at least 1 row in the claim file, found " + rows.size(),
             rows.size() >= 1);
-    Set<String> pdeIds = new HashSet<String>();
+    Set<String> pdeIds = new HashSet<>();
     rows.forEach(row -> {
       assertTrue("Expected non-zero length PDE ID",
           row.containsKey("PDE_ID") && row.get("PDE_ID").length() > 0);
